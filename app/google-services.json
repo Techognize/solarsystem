@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "838266681067",
+    "firebase_url": "https://loginscreen-c12bf.firebaseio.com",
+    "project_id": "loginscreen-c12bf",
+    "storage_bucket": "loginscreen-c12bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838266681067:android:afa06055e06ee5760930ae",
+        "android_client_info": {
+          "package_name": "com.google.ar.sceneform.samples.solarsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838266681067-ffviat2c4dtvseak4bknfokv3j43op2a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.google.ar.sceneform.samples.solarsystem",
+            "certificate_hash": "25a5e0db59642a8b059e8d457bee975dec817fbf"
+          }
+        },
+        {
+          "client_id": "838266681067-h9f6rg1c5c9lnod4obqmt72p0b84su2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp5VXqAH51SItJiO6RqShuPsBo6Iz7BRw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838266681067-h9f6rg1c5c9lnod4obqmt72p0b84su2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
