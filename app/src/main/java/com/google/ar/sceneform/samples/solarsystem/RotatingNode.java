@@ -16,7 +16,7 @@
 package com.google.ar.sceneform.samples.solarsystem;
 
 import android.animation.ObjectAnimator;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.animation.LinearInterpolator;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Node;

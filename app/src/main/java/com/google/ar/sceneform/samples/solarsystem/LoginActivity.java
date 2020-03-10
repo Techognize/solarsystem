@@ -1,8 +1,10 @@
 package com.google.ar.sceneform.samples.solarsystem;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -37,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
     int RC_SIGN_IN = 0;
     SignInButton signInButton;
     GoogleSignInClient mGoogleSignInClient;
+
+    String personName;
+    String personEmail;
+    Uri personPhoto;
 
 
     @Override
@@ -105,7 +111,19 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(LoginActivity.this);
+            if (acct != null) {
+                 personName = acct.getDisplayName();
+                 personEmail = acct.getEmail();
+                 personPhoto = acct.getPhotoUrl();
+            }
+
+            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+            intent.putExtra("personName",personName);
+            intent.putExtra("personEmail",personEmail);
+            intent.putExtra("personPhoto",personPhoto);
+            startActivity(intent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -120,7 +138,7 @@ public class LoginActivity extends AppCompatActivity {
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(account != null) {
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
         super.onStart();
     }
@@ -149,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
 
-                            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
                             Toast.makeText(getApplicationContext(), "Login failed! Please try again later", Toast.LENGTH_LONG).show();

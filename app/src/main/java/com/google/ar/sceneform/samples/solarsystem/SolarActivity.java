@@ -1,25 +1,10 @@
-/*
- * Copyright 2018 Google LLC.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.google.ar.sceneform.samples.solarsystem;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -98,29 +83,29 @@ public class SolarActivity extends AppCompatActivity {
 
     // Build all the planet models.
     CompletableFuture<ModelRenderable> sunStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Sol.sfb")).build();
     CompletableFuture<ModelRenderable> mercuryStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Mercury.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Mercury.sfb")).build();
     CompletableFuture<ModelRenderable> venusStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Venus.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Venus.sfb")).build();
     CompletableFuture<ModelRenderable> earthStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Earth.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Earth.sfb")).build();
     CompletableFuture<ModelRenderable> lunaStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Luna.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Luna.sfb")).build();
     CompletableFuture<ModelRenderable> marsStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Mars.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Mars.sfb")).build();
     CompletableFuture<ModelRenderable> jupiterStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Jupiter.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Jupiter.sfb")).build();
     CompletableFuture<ModelRenderable> saturnStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Saturn.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Saturn.sfb")).build();
     CompletableFuture<ModelRenderable> uranusStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Uranus.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Uranus.sfb")).build();
     CompletableFuture<ModelRenderable> neptuneStage =
-        ModelRenderable.builder().setSource(this, Uri.parse("Neptune.sfb")).build();
+            ModelRenderable.builder().setSource(this, Uri.parse("Neptune.sfb")).build();
 
     // Build a renderable from a 2D View.
     CompletableFuture<ViewRenderable> solarControlsStage =
-        ViewRenderable.builder().setView(this, R.layout.solar_controls).build();
+            ViewRenderable.builder().setView(this, R.layout.solar_controls).build();
 
     CompletableFuture.allOf(
             sunStage,
@@ -134,97 +119,97 @@ public class SolarActivity extends AppCompatActivity {
             uranusStage,
             neptuneStage,
             solarControlsStage)
-        .handle(
-            (notUsed, throwable) -> {
-              // When you build a Renderable, Sceneform loads its resources in the background while
-              // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
-              // before calling get().
+            .handle(
+                    (notUsed, throwable) -> {
+                      // When you build a Renderable, Sceneform loads its resources in the background while
+                      // returning a CompletableFuture. Call handle(), thenAccept(), or check isDone()
+                      // before calling get().
 
-              if (throwable != null) {
-                DemoUtils.displayError(this, "Unable to load renderable", throwable);
-                return null;
-              }
+                      if (throwable != null) {
+                        DemoUtils.displayError(this, "Unable to load renderable", throwable);
+                        return null;
+                      }
 
-              try {
-                sunRenderable = sunStage.get();
-                mercuryRenderable = mercuryStage.get();
-                venusRenderable = venusStage.get();
-                earthRenderable = earthStage.get();
-                lunaRenderable = lunaStage.get();
-                marsRenderable = marsStage.get();
-                jupiterRenderable = jupiterStage.get();
-                saturnRenderable = saturnStage.get();
-                uranusRenderable = uranusStage.get();
-                neptuneRenderable = neptuneStage.get();
-                solarControlsRenderable = solarControlsStage.get();
+                      try {
+                        sunRenderable = sunStage.get();
+                        mercuryRenderable = mercuryStage.get();
+                        venusRenderable = venusStage.get();
+                        earthRenderable = earthStage.get();
+                        lunaRenderable = lunaStage.get();
+                        marsRenderable = marsStage.get();
+                        jupiterRenderable = jupiterStage.get();
+                        saturnRenderable = saturnStage.get();
+                        uranusRenderable = uranusStage.get();
+                        neptuneRenderable = neptuneStage.get();
+                        solarControlsRenderable = solarControlsStage.get();
 
-                // Everything finished loading successfully.
-                hasFinishedLoading = true;
+                        // Everything finished loading successfully.
+                        hasFinishedLoading = true;
 
-              } catch (InterruptedException | ExecutionException ex) {
-                DemoUtils.displayError(this, "Unable to load renderable", ex);
-              }
+                      } catch (InterruptedException | ExecutionException ex) {
+                        DemoUtils.displayError(this, "Unable to load renderable", ex);
+                      }
 
-              return null;
-            });
+                      return null;
+                    });
 
     // Set up a tap gesture detector.
     gestureDetector =
-        new GestureDetector(
-            this,
-            new GestureDetector.SimpleOnGestureListener() {
-              @Override
-              public boolean onSingleTapUp(MotionEvent e) {
-                onSingleTap(e);
-                return true;
-              }
+            new GestureDetector(
+                    this,
+                    new GestureDetector.SimpleOnGestureListener() {
+                      @Override
+                      public boolean onSingleTapUp(MotionEvent e) {
+                        onSingleTap(e);
+                        return true;
+                      }
 
-              @Override
-              public boolean onDown(MotionEvent e) {
-                return true;
-              }
-            });
+                      @Override
+                      public boolean onDown(MotionEvent e) {
+                        return true;
+                      }
+                    });
 
     // Set a touch listener on the Scene to listen for taps.
     arSceneView
-        .getScene()
-        .setOnTouchListener(
-            (HitTestResult hitTestResult, MotionEvent event) -> {
-              // If the solar system hasn't been placed yet, detect a tap and then check to see if
-              // the tap occurred on an ARCore plane to place the solar system.
-              if (!hasPlacedSolarSystem) {
-                return gestureDetector.onTouchEvent(event);
-              }
+            .getScene()
+            .setOnTouchListener(
+                    (HitTestResult hitTestResult, MotionEvent event) -> {
+                      // If the solar system hasn't been placed yet, detect a tap and then check to see if
+                      // the tap occurred on an ARCore plane to place the solar system.
+                      if (!hasPlacedSolarSystem) {
+                        return gestureDetector.onTouchEvent(event);
+                      }
 
-              // Otherwise return false so that the touch event can propagate to the scene.
-              return false;
-            });
+                      // Otherwise return false so that the touch event can propagate to the scene.
+                      return false;
+                    });
 
     // Set an update listener on the Scene that will hide the loading message once a Plane is
     // detected.
     arSceneView
-        .getScene()
-        .addOnUpdateListener(
-            frameTime -> {
-              if (loadingMessageSnackbar == null) {
-                return;
-              }
+            .getScene()
+            .addOnUpdateListener(
+                    frameTime -> {
+                      if (loadingMessageSnackbar == null) {
+                        return;
+                      }
 
-              Frame frame = arSceneView.getArFrame();
-              if (frame == null) {
-                return;
-              }
+                      Frame frame = arSceneView.getArFrame();
+                      if (frame == null) {
+                        return;
+                      }
 
-              if (frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
-                return;
-              }
+                      if (frame.getCamera().getTrackingState() != TrackingState.TRACKING) {
+                        return;
+                      }
 
-              for (Plane plane : frame.getUpdatedTrackables(Plane.class)) {
-                if (plane.getTrackingState() == TrackingState.TRACKING) {
-                  hideLoadingMessage();
-                }
-              }
-            });
+                      for (Plane plane : frame.getUpdatedTrackables(Plane.class)) {
+                        if (plane.getTrackingState() == TrackingState.TRACKING) {
+                          hideLoadingMessage();
+                        }
+                      }
+                    });
 
     // Lastly request CAMERA permission which is required by ARCore.
     DemoUtils.requestCameraPermission(this, RC_PERMISSIONS);
@@ -242,11 +227,11 @@ public class SolarActivity extends AppCompatActivity {
       // This can happen if ARCore needs to be updated or permissions are not granted yet.
       try {
         Config.LightEstimationMode lightEstimationMode =
-            Config.LightEstimationMode.ENVIRONMENTAL_HDR;
+                Config.LightEstimationMode.ENVIRONMENTAL_HDR;
         Session session =
-            cameraPermissionRequested
-                ? DemoUtils.createArSessionWithInstallRequest(this, lightEstimationMode)
-                : DemoUtils.createArSessionNoInstallRequest(this, lightEstimationMode);
+                cameraPermissionRequested
+                        ? DemoUtils.createArSessionWithInstallRequest(this, lightEstimationMode)
+                        : DemoUtils.createArSessionNoInstallRequest(this, lightEstimationMode);
         if (session == null) {
           cameraPermissionRequested = DemoUtils.hasCameraPermission(this);
           return;
@@ -289,7 +274,7 @@ public class SolarActivity extends AppCompatActivity {
 
   @Override
   public void onRequestPermissionsResult(
-      int requestCode, @NonNull String[] permissions, @NonNull int[] results) {
+          int requestCode, @NonNull String[] permissions, @NonNull int[] results) {
     if (!DemoUtils.hasCameraPermission(this)) {
       if (!DemoUtils.shouldShowRequestPermissionRationale(this)) {
         // Permission denied with checking "Do not ask again".
@@ -297,7 +282,7 @@ public class SolarActivity extends AppCompatActivity {
       } else {
         Toast.makeText(
                 this, "Camera permission is needed to run this application", Toast.LENGTH_LONG)
-            .show();
+                .show();
       }
       finish();
     }
@@ -309,14 +294,14 @@ public class SolarActivity extends AppCompatActivity {
     if (hasFocus) {
       // Standard Android full-screen functionality.
       getWindow()
-          .getDecorView()
-          .setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                  | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                  | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                  | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                  | View.SYSTEM_UI_FLAG_FULLSCREEN
-                  | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+              .getDecorView()
+              .setSystemUiVisibility(
+                      View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                              | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                              | View.SYSTEM_UI_FLAG_FULLSCREEN
+                              | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
       getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
   }
@@ -375,40 +360,40 @@ public class SolarActivity extends AppCompatActivity {
     SeekBar orbitSpeedBar = solarControlsView.findViewById(R.id.orbitSpeedBar);
     orbitSpeedBar.setProgress((int) (solarSettings.getOrbitSpeedMultiplier() * 10.0f));
     orbitSpeedBar.setOnSeekBarChangeListener(
-        new SeekBar.OnSeekBarChangeListener() {
-          @Override
-          public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            float ratio = (float) progress / (float) orbitSpeedBar.getMax();
-            solarSettings.setOrbitSpeedMultiplier(ratio * 10.0f);
-          }
+            new SeekBar.OnSeekBarChangeListener() {
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float ratio = (float) progress / (float) orbitSpeedBar.getMax();
+                solarSettings.setOrbitSpeedMultiplier(ratio * 10.0f);
+              }
 
-          @Override
-          public void onStartTrackingTouch(SeekBar seekBar) {}
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {}
 
-          @Override
-          public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
 
     SeekBar rotationSpeedBar = solarControlsView.findViewById(R.id.rotationSpeedBar);
     rotationSpeedBar.setProgress((int) (solarSettings.getRotationSpeedMultiplier() * 10.0f));
     rotationSpeedBar.setOnSeekBarChangeListener(
-        new SeekBar.OnSeekBarChangeListener() {
-          @Override
-          public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            float ratio = (float) progress / (float) rotationSpeedBar.getMax();
-            solarSettings.setRotationSpeedMultiplier(ratio * 10.0f);
-          }
+            new SeekBar.OnSeekBarChangeListener() {
+              @Override
+              public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float ratio = (float) progress / (float) rotationSpeedBar.getMax();
+                solarSettings.setRotationSpeedMultiplier(ratio * 10.0f);
+              }
 
-          @Override
-          public void onStartTrackingTouch(SeekBar seekBar) {}
+              @Override
+              public void onStartTrackingTouch(SeekBar seekBar) {}
 
-          @Override
-          public void onStopTrackingTouch(SeekBar seekBar) {}
-        });
+              @Override
+              public void onStopTrackingTouch(SeekBar seekBar) {}
+            });
 
     // Toggle the solar controls on and off by tapping the sun.
     sunVisual.setOnTapListener(
-        (hitTestResult, motionEvent) -> solarControls.setEnabled(!solarControls.isEnabled()));
+            (hitTestResult, motionEvent) -> solarControls.setEnabled(!solarControls.isEnabled()));
 
     createPlanet("Mercury", sun, 0.4f, 47f, mercuryRenderable, 0.019f, 0.03f);
 
@@ -432,13 +417,13 @@ public class SolarActivity extends AppCompatActivity {
   }
 
   private Node createPlanet(
-      String name,
-      Node parent,
-      float auFromParent,
-      float orbitDegreesPerSecond,
-      ModelRenderable renderable,
-      float planetScale,
-      float axisTilt) {
+          String name,
+          Node parent,
+          float auFromParent,
+          float orbitDegreesPerSecond,
+          ModelRenderable renderable,
+          float planetScale,
+          float axisTilt) {
     // Orbit is a rotating node with no renderable positioned at the sun.
     // The planet is positioned relative to the orbit so that it appears to rotate around the sun.
     // This is done instead of making the sun rotate so each planet can orbit at its own speed.
@@ -448,8 +433,8 @@ public class SolarActivity extends AppCompatActivity {
 
     // Create the planet and position it relative to the sun.
     Planet planet =
-        new Planet(
-            this, name, planetScale, orbitDegreesPerSecond, axisTilt, renderable, solarSettings);
+            new Planet(
+                    this, name, planetScale, orbitDegreesPerSecond, axisTilt, renderable, solarSettings);
     planet.setParent(orbit);
     planet.setLocalPosition(new Vector3(auFromParent * AU_TO_METERS, 0.0f, 0.0f));
 
@@ -462,10 +447,10 @@ public class SolarActivity extends AppCompatActivity {
     }
 
     loadingMessageSnackbar =
-        Snackbar.make(
-            SolarActivity.this.findViewById(android.R.id.content),
-            R.string.plane_finding,
-            Snackbar.LENGTH_INDEFINITE);
+            Snackbar.make(
+                    SolarActivity.this.findViewById(android.R.id.content),
+                    R.string.plane_finding,
+                    Snackbar.LENGTH_INDEFINITE);
     loadingMessageSnackbar.getView().setBackgroundColor(0xbf323232);
     loadingMessageSnackbar.show();
   }
